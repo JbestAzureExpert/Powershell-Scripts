@@ -1,0 +1,1 @@
+﻿Add-DnsServerResourceRecord -CertificateAssociationData ff856a2d251dcd88d36656f450126798cfabaade40799c722de4d2b5db36a73a -CertificateUsage DomainIssuedCertificate -MatchingType Sha256Hash -Selector SubjectPublicKeyInfo -TLSA -ZoneName nuggetlab.com -Name _443._tcp -TimeToLive 600
