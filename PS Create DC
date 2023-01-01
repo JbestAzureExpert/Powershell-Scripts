@@ -1,0 +1,35 @@
+# Install the Active Directory Domain Services role and the DNS Server role
+Install-WindowsFeature -Name AD-Domain-Services, DNS -IncludeManagementTools
+
+# Promote the server to a domain controller
+Import-Module ADDSDeployment
+Install-ADDSDomainController `
+    -NoGlobalCatalog:$false `
+    -CreateDnsDelegation:$false `
+    -CriticalReplicationOnly:$false `
+    -DatabasePath "C:\Windows\NTDS" `
+    -DomainName "example.com" `
+    -InstallDns:$true `
+    -LogPath "C:\Windows\NTDS" `
+    -NoRebootOnCompletion:$false `
+    -SiteName "Default-First-Site-Name" `
+    -SysvolPath "C:\Windows\SYSVOL" `
+    -Force:$true
+
+# Install the DHCP Server role
+Install-WindowsFeature -Name DHCP -IncludeManagementTools
+
+# Configure DHCP scopes
+Add-DhcpServerv4Scope `
+    -StartRange "192.168.1.10" `
+    -EndRange "192.168.1.100" `
+    -SubnetMask "255.255.255.0" `
+    -Name "Scope1"
+
+# Enable DHCP security using options 43 and 60
+Set-DhcpServerv4OptionValue `
+    -DnsDomain "example.com" `
+    -OptionId 43 `
+    -Value "010400000000FF"
+Set-DhcpServerv4OptionValue `
+    -VendorClass "PXEClient" `
