@@ -1,0 +1,21 @@
+# Import the Group Policy module
+Import-Module GroupPolicy
+
+# Set the name of the GPO and the path to the RDP certificate
+$GpoName = "RDP Certificate GPO"
+$CertPath = "C:\path\to\rdp_cert.cer"
+
+# Create a new GPO
+New-GPO -Name $GpoName
+
+# Get the GPO object
+$Gpo = Get-GPO -Name $GpoName
+
+# Import the RDP certificate into the Trusted Root Certification Authorities store for computer accounts
+Import-Certificate -FilePath $CertPath -CertStoreLocation "Cert:\LocalMachine\Root" -Gpo $Gpo
+
+# Import the RDP certificate into the Trusted Root Certification Authorities store for user accounts
+Import-Certificate -FilePath $CertPath -CertStoreLocation "Cert:\CurrentUser\Root" -Gpo $Gpo
+
+# Link the GPO to the desired Active Directory (AD) container, such as an organizational unit (OU) or domain
+Set-GPPermission -Name $GpoName -TargetName "OU=RDP Users,DC=example,DC=com" -TargetType OU -PermissionLevel GpoApply
