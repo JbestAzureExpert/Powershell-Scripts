@@ -1,0 +1,20 @@
+# Import the Universal Print module
+Import-Module UniversalPrint
+
+# Connect to Universal Print
+Connect-UPnPServer
+
+# Set the path to the CSV file
+$csvFile = "C:\path\to\printers.csv"
+
+# Read the CSV file
+$printers = Import-Csv $csvFile
+
+# Loop through each printer in the CSV file
+foreach ($printer in $printers) {
+    # Get the current printer object
+    $currentPrinter = Get-UPnPPrinter -Name $printer.Name
+
+    # Update the printer properties
+    $currentPrinter | Set-UPnPPrinter -FriendlyName $printer.FriendlyName -Location $printer.Location -Model $printer.Model
+}
