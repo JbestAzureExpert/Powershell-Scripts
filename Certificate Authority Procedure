@@ -1,0 +1,27 @@
+Here is a procedure for installing a Certificate Authority (CA) on a Windows Server and then installing a subordinate CA on a domain controller:
+
+Install the Active Directory Certificate Services (AD CS) role on the Windows Server.
+
+Open the AD CS Configuration Wizard and select "Enterprise CA" as the CA type.
+
+Choose a CA name and specify the CA's key characteristics, such as the key algorithm, key length, and validity period.
+
+Select the database and log locations for the CA.
+
+Configure the certificate revocation options, such as the Certificate Revocation List (CRL) distribution point and the Online Certificate Status Protocol (OCSP) responder.
+
+Review the summary and complete the installation.
+
+To install a subordinate CA on a domain controller:
+
+Install the AD CS role on the domain controller.
+
+Open the AD CS Configuration Wizard and select "Subordinate CA" as the CA type.
+
+Choose a CA name and specify the key characteristics, such as the key algorithm, key length, and validity period.
+
+Select the database and log locations for the CA.
+
+Specify the certificate signing request (CSR) file that was generated on the root CA.
+
+Review the summary and complete the installation.
